@@ -1,0 +1,22 @@
+[
+    {
+        "birthday": "rO0ABXNyAA1qYXZhLnRpbWUuU2VylV2EuhsiSLIMAAB4cHcHAwAAB88LCng=",
+        "email": "Senya@mail.ru",
+        "fname": "Sanya",
+        "id": 1,
+        "lname": "Ganjubas",
+        "nickname": "Sanya",
+        "password": "$2a$10$SvPa0vPFUCyskf4Y1m1qcOJnllo/syncTNElYLq9moq2HlCu.h.Fy",
+        "role": "user"
+    },
+    {
+        "birthday": "rO0ABXNyAA1qYXZhLnRpbWUuU2VylV2EuhsiSLIMAAB4cHcHAwAAB88KDHg=",
+        "email": "SergeyKrivosheev@mail.ru",
+        "fname": "sergey",
+        "id": 2,
+        "lname": "krivosheev",
+        "nickname": "administrator",
+        "password": "$2a$10$ZoFJ7wXj7LzmD1F4xLB6ZO1pQTXWPLplf0i.X/DoOauyrU.SrczVW",
+        "role": "Admin"
+    }
+]

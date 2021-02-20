@@ -1,0 +1,32 @@
+[
+    {
+        "description": "horosho ",
+        "gameId": 1,
+        "name": "spaceRangers",
+        "price": "1000"
+    },
+    {
+        "description": "toshe horosho",
+        "gameId": 2,
+        "name": "foxhole",
+        "price": "1500"
+    },
+    {
+        "description": "10 divisiy iz 10",
+        "gameId": 3,
+        "name": "hoi4",
+        "price": "5000"
+    },
+    {
+        "description": "vpered legioni",
+        "gameId": 4,
+        "name": "civilization6",
+        "price": "5500"
+    },
+    {
+        "description": "yeeeehhhhaaaaa",
+        "gameId": 25,
+        "name": "tf2",
+        "price": "5000"
+    }
+]
