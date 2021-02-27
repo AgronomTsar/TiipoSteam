@@ -5,11 +5,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.steamnonesteam.model.Model;
 import com.steamnonesteam.service.Service;
-import io.javalin.core.security.BasicAuthCredentials;
 import io.javalin.http.Context;
-import org.mindrot.jbcrypt.BCrypt;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
+
 public class AbstractController<T extends Model> implements Controller<T>{
     private final Service<T> service;
     private static ObjectMapper objectMapper;
@@ -22,10 +21,19 @@ public class AbstractController<T extends Model> implements Controller<T>{
         this.userDao = userDao;
     }
     @Override
-    public void getAll(Context context) {
+    public void getAll(Context context,int amount) {
         try {
-            context.result(objectMapper.writeValueAsString(service.findAll()));
-        } catch (Exception e) {
+            ArrayList<T> pagedList=new ArrayList<>();
+            if(service.findAll().size()<=amount){
+                context.result(objectMapper.writeValueAsString(service.findAll()));
+            }
+            else{
+                for(int i=0;i<amount;i++){
+                    pagedList.add(service.findAll().get(i));
+                }
+                context.result(objectMapper.writeValueAsString(pagedList));
+            }
+        } catch (Exception e){
             e.printStackTrace();
             context.status(500);
         }
@@ -68,7 +76,6 @@ public class AbstractController<T extends Model> implements Controller<T>{
             e.printStackTrace();
             context.status(400);
         }
-
     }
     @Override
     public void delete(Context context, int id) throws SQLException {

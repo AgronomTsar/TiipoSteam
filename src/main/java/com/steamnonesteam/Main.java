@@ -22,7 +22,6 @@ import io.javalin.Javalin;
 import java.sql.SQLException;
 import static io.javalin.apibuilder.ApiBuilder.*;
 import static io.javalin.core.security.SecurityUtil.roles;
-
 public class Main {
     public static void main(String[] args) throws SQLException {
         DatabaseConfiguration configuration = new JdbcDatabaseConfiguration("jdbc:sqlite:C:\\Users\\77012\\Desktop\\бд\\steam.db");
@@ -50,8 +49,6 @@ public class Main {
         Controller<User> UserController = new UserController(userService,objectMapper,userDao);
         GameController gameController = new GameController(gameService,objectMapper,userDao,userGameDao,gameDao,user);
         UserGameController UserGameController = new UserGameController(userGameService,objectMapper,userDao,userGameDao);
-        LibraryController lc=new LibraryController(app,ls);
-
         app.config.accessManager((handler,context,permittedRoles)->{
             Roles userRole = authorization.getUserRole(context);
             if (permittedRoles.contains(userRole)) {
@@ -62,30 +59,42 @@ public class Main {
         });
         app.routes(() -> {
             path("users", () -> {
-                get(UserController::getAll,roles(Roles.ADMIN));
                 post(UserController::post,roles(Roles.USER,Roles.ADMIN));
                 path(":id", () -> {
                     get(ctx -> UserController.getOne(ctx, ctx.pathParam("id", Integer.class).get()),roles(Roles.ADMIN,Roles.USER));
                     patch(ctx -> UserController.patch(ctx, ctx.pathParam("id", Integer.class).get()),roles(Roles.ADMIN,Roles.USER));
                     delete(ctx -> UserController.delete(ctx, ctx.pathParam("id", Integer.class).get()),roles(Roles.USER,Roles.ADMIN));
                 });
+                path("page",()->{
+                    path(":amount",()->{
+                        get(ctx->UserController.getAll(ctx,ctx.pathParam("amount",Integer.class).get()),roles(Roles.ADMIN));
+                    });
+                });
             });
             path("games", () -> {
-                get(gameController::getAll,roles(Roles.ADMIN));
                 post(gameController::post,roles(Roles.ADMIN));
                 path(":id", () -> {
                     get(ctx -> gameController.getGameById(ctx.pathParam("id", Integer.class).get(),ctx),roles(Roles.ADMIN,Roles.USER));
                     patch(ctx -> gameController.patch(ctx, ctx.pathParam("id", Integer.class).get()),roles(Roles.ADMIN));
                     delete(ctx -> gameController.delete(ctx, ctx.pathParam("id", Integer.class).get()),roles(Roles.ADMIN));
                 });
+                path("page",()->{
+                    path(":amount",()->{
+                        get(ctx->gameController.getAll(ctx,ctx.pathParam("amount",Integer.class).get()),roles(Roles.ADMIN));
+                    });
+                });
             });
-            path("userGame", () -> {
-                get(UserGameController::getAll,roles(Roles.ADMIN));
+            path("userGame",()->{
                 post(UserGameController::post,roles(Roles.ADMIN));
                 path(":id", () -> {
                     get(ctx -> UserGameController.getOne(ctx, ctx.pathParam("id", Integer.class).get()),roles(Roles.ADMIN));
                     patch(ctx -> UserGameController.patch(ctx, ctx.pathParam("id", Integer.class).get()),roles(Roles.ADMIN));
                     delete(ctx -> UserGameController.delete(ctx, ctx.pathParam("id", Integer.class).get()),roles(Roles.ADMIN));
+                });
+                path("page",()->{
+                    path(":amount",()->{
+                        get(ctx->UserGameController.getAll(ctx,ctx.pathParam("amount",Integer.class).get()),roles(Roles.ADMIN));
+                    });
                 });
             });
             path("Library",()->{

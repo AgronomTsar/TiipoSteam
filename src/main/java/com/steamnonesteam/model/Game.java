@@ -1,8 +1,6 @@
 package com.steamnonesteam.model;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
 @DatabaseTable(tableName = "Game")
 public class Game implements Model{
     @DatabaseField(id=true)
